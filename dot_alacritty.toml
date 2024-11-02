@@ -1,0 +1,21 @@
+[window]
+opacity = 1.0
+
+padding.x = 4
+padding.y = 4
+
+decorations = "None"
+decorations_theme_variant = "Dark"
+
+[font]
+normal.family = "FantasqueSansM Nerd Font"
+bold.family = "FantasqueSansM Nerd Font"
+italic.family = "FantasqueSansM Nerd Font"
+bold_italic.family = "FantasqueSansM Nerd Font"
+
+size = 14.0
+
+offset.x = 0  # For letter spacing (default: 0)
+offset.y = 8  # For line spacing (default: 0)
+
+glyph_offset.y = 5
