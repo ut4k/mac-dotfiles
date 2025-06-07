@@ -6,7 +6,7 @@ require("nvim-dap-virtual-text").setup()
 dap.adapters.php = {
 	type = "executable",
 	command = "node",
-	args = { os.getenv("HOME") .. "/build/vscode-php-debug/out/phpDebug.js" },
+	args = { os.getenv("HOME") .. "/vscode-php-debug/out/phpDebug.js" },
 }
 
 dap.configurations.php = {
@@ -14,12 +14,11 @@ dap.configurations.php = {
 		type = "php",
 		request = "launch",
 		name = "Listen for Xdebug",
-		port = 9003,
+		port = 9000,
+		log = true,
 		pathMappings = {
-			-- ["/var/www/html"] = "${workspaceFolder}"
-			["/data/home/"] = "${workspaceFolder}",
+			["/var/www/html/knowbe-api/"] = "${workspaceFolder}"
 		},
-		-- log = true,
 	},
 }
 
@@ -39,9 +38,7 @@ map("n", "<F12>", ":lua require'dap'.step_out()<CR>", { silent = true })
 map("n", "<leader>b", ":lua require'dap'.toggle_breakpoint()<CR>", { silent = true })
 map("n", "<leader>bc", ":lua require'dap'.clear_breakpoints()<CR>", { silent = true })
 map("n", "<Leader>df", ":lua require'dapui'.eval(nil, { enter = true })<CR>", { silent = true })
-
--- dap-ui key map
-map("n", "<leader>d", ":lua require'dapui'.toggle()<CR>", { silent = true })
+map("n", "<leader>de", ":lua require'dapui'.elements.watches.add(vim.fn.expand('<cword>'))<CR>", { silent = true })
 map("n", "<leader><leader>df", ":lua require'dapui'.eval()<CR>", { silent = true })
 
 require("dapui").setup({

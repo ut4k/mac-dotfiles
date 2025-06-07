@@ -73,3 +73,4 @@ function ColorMyPencilsLight(color)
 	vim.api.nvim_set_hl(0, "NonText", {fg="#e6e0da"})
 end
 
+

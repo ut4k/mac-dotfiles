@@ -92,31 +92,53 @@ function dump(o)
       return tostring(o)
    end
 end
-function SymbolNameToReg()
- local a = require('aerial')
- local symbols = a.get_location(true)
 
- local name = ''
- -- print(dump(symbols))
-
- for k,v in pairs(symbols) do
-  if v.kind == 'Class' then
-    name = v.name 
-  end
-  if v.kind == 'Method' then
-    name = name .. '::' .. v.name
-  end
-  if v.kind == 'Function' then
-    name = v.name
-  end
- end
- print(name)
- -- vim.fn.system('clip.exe', name)
- ToClipboard(name);
- return name
+function GetNamespaceFromLspSymbol()
+    local result = vim.lsp.buf_request_sync(0, 'textDocument/documentSymbol', {
+        textDocument = vim.lsp.util.make_text_document_params()
+    }, 1000)
+    if not result or not result[1] or not result[1].result then
+        -- print("No symbols found")
+        return ''
+    end
+    local symbols = result[1].result
+    -- print(vim.inspect(symbols))
+    local namespace = ''
+    for _, symbol in ipairs(symbols) do
+        if symbol.kind == 3 then  -- Namespace
+            namespace = symbol.name
+            break
+        end
+    end
+    return namespace
 end
+
+function SymbolNameToReg()
+    local a = require('aerial')
+    local symbols = a.get_location(true)
+    local name = ''
+    for k,v in pairs(symbols) do
+        if v.kind == 'Class' then
+            name = v.name 
+        end
+        if v.kind == 'Method' then
+            name = name .. '::' .. v.name
+        end
+        if v.kind == 'Function' then
+            name = v.name
+        end
+    end
+    local namespace = GetNamespaceFromLspSymbol()
+    if namespace ~= '' then
+        name = namespace .. '\\' .. name
+    end
+    print(name)
+    ToClipboard(name);
+    return name
+end
+
 -- [a]erial [r]egister
-vim.keymap.set('n', '<leader>ar', ':call v:lua.SymbolNameToReg()<cr>', { noremap = true })
+vim.keymap.set('n', '<leader>ar', ':lua SymbolNameToReg()<CR>', { noremap = true })
 
 -- ---------------------------------------
 -- autocmd
@@ -198,3 +220,5 @@ function ToClipboard(whatToCopy)
         print('Unsupported platform')
     end
 end
+
+

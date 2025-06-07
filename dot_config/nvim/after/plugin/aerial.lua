@@ -2,6 +2,7 @@
 -- aerial.nvim
 -- -----------------------------------------
 require('aerial').setup({
+    backends = { "lsp", "treesitter", "markdown" },
 	layout = {
 	  placement = "window",
     max_width = { 40, 0.2 },
@@ -15,6 +16,7 @@ require('aerial').setup({
     min_height = { 8, 0.1 },
 	},
   filter_kind = {
+    "Namespace",
     "Class",
     -- "Constructor",
     -- "Enum",
@@ -24,22 +26,12 @@ require('aerial').setup({
     "Method",
     -- "Struct",
   },
-  -- float = {
-  --   relative = "editor",
-  --   override = function(conf)
-  --     local padding = 4
-  --     conf.anchor = 'NE'
-  --     conf.row = padding
-  --     conf.col = vim.o.columns - padding
-  --     return conf
-  --   end,
-  -- }
+  -- Disable aerial on files with this many lines
+  disable_max_lines = 100000,
+  -- Disable aerial on files this size or larger (in bytes)
+  disable_max_size = 20000000, -- Default 2MB
 	 on_attach = function(bufnr)
     -- Jump forwards/backwards with '{' and '}'
     vim.keymap.set('n', '<leader>at', '<cmd>AerialToggle right<CR>', {buffer = bufnr})
   end
 })
-
-
--- vim.keymap.set('n', '<leader>at', ':AerialToggle right<cr>', options)
--- vim.keymap.set('n', '<leader>af', ':AerialToggle float<cr>', options)

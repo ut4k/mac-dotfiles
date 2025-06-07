@@ -1,4 +1,5 @@
 cmd + shift - return : open -n -a "Alacritty"
+# cmd + shift - return : open -n -a "Ghostty"
 
 # https://gitlab.com/-/snippets/2527176
 # restart yabai and skhd

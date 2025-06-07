@@ -108,9 +108,9 @@ return require('packer').startup({function(use)
 	-- debugger
 	use "mfussenegger/nvim-dap"
 	use "rcarriga/nvim-dap-ui"
-	use "nvim-neotest/nvim-nio"
 	use 'theHamsta/nvim-dap-virtual-text'
 	use "leoluz/nvim-dap-go"
+	use "nvim-neotest/nvim-nio"
 
 	-- workspace switching
 	use {'nvim-telescope/telescope-project.nvim'}
@@ -161,7 +161,7 @@ return require('packer').startup({function(use)
 	-- aug END
 	-- ]]
 
-	use 'kevinhwang91/nvim-hlslens'
+	-- use 'kevinhwang91/nvim-hlslens'
 	use 'haya14busa/vim-asterisk'
 
 	-- use {
@@ -175,12 +175,26 @@ return require('packer').startup({function(use)
 	-- use 'neovimhaskell/haskell-vim'
 	use "adalessa/laravel.nvim"
 	use { 'mhartington/formatter.nvim' }
+	use { "stevearc/conform.nvim" }
 	use {
 		'nmac427/guess-indent.nvim',
 		config = function() require('guess-indent').setup {} end,
 	}
 	use { "axkirillov/telescope-changed-files" }
 	use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release' }
+	use { 'praem90/nvim-phpcsf' }
+	use 'mfussenegger/nvim-lint'
+	-- use { "praem90/neotest-docker-phpunit.nvim" }
+	-- use {
+	-- 	"nvim-neotest/neotest",
+	-- 	requires = {
+	-- 		"nvim-neotest/nvim-nio",
+	-- 		"nvim-lua/plenary.nvim",
+	-- 		"antoinemadec/FixCursorHold.nvim",
+	-- 		"nvim-treesitter/nvim-treesitter",
+	-- 		"olimorris/neotest-phpunit",
+	-- 	}
+	-- }
 end,
 config = {
   display = {

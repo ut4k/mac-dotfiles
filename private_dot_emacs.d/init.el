@@ -58,6 +58,9 @@
 ;;デフォルトのワーキングディレクトリをデスクトップにする
 (setq default-directory (expand-file-name "~/org/"))
 
+;; Emacsに等幅フォントを設定
+(set-face-attribute 'default nil :family "Myrica M" :height 140)
+
 
 ;; ---------------------------------
 ;; ┬┌─┌─┐┬ ┬┌┐ ┬┌┐┌┌┬┐┬┌┐┌┌─┐┌─┐

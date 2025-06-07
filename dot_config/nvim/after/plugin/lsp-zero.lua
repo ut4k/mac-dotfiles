@@ -39,16 +39,31 @@ lspconfig.gopls.setup({
 -- }
 
 -- Configure PHP WP LSP
+--
+--require 'lspconfig'.intelephense.setup {
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+--
 lspconfig.intelephense.setup({
 	-- root_dir = util.root_pattern(".git", "index.php"),
 	root_dir = require("lspconfig").util.root_pattern(".git", ".svn", "package.json"),
 	single_file_support = true,
 	settings = {
 		intelephense = {
+      environment = {
+        includePaths = {
+					'./vendor',
+					'./../vendor',
+					'./../../vendor',
+					'./../../../vendor',
+				},
+        excludePaths = { },
+      },
 			format = {
-				-- enable = true,
-				enable = false,
+				enable = true,
+				-- enable = false,
 			},
+			capabilities = capabilities,
 			stubs = {
 				"bcmath",
 				"bz2",
@@ -125,10 +140,23 @@ cmp.setup({
 		ghost_text = true, -- this feature conflict with copilot.vim's preview.
 	},
 })
-vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-	focusable = false,
-	border = "single",
+-- vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+-- 	focusable = false,
+-- 	border = "single",
+-- })
+vim.api.nvim_create_autocmd("LspAttach", {
+  callback = function(args)
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    -- 新しいハンドラのスタイルで hover の表示をカスタム
+    client.handlers["textDocument/hover"] = function(err, result, ctx, config)
+      config = config or {}
+      config.border = "single"
+      config.focusable = false
+      vim.lsp.handlers.hover(err, result, ctx, config)
+    end
+  end,
 })
+
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
 	virtual_text = {
@@ -137,6 +165,7 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagn
 	},
 	signs = true,
 	underline = true,
+  focusable = false,
 	--   virtual_text = false,
 	-- float = {boder = "single" },
 })
@@ -147,13 +176,14 @@ vim.fn.sign_define("DiagnosticSignWarn", { text = "", texthl = "DiagnosticSig
 vim.fn.sign_define("DiagnosticSignInfo", { text = "", texthl = "DiagnosticSignInfo" })
 vim.fn.sign_define("DiagnosticSignHint", { text = "", texthl = "DiagnosticSignInfo" })
 
--- vim.keymap.set('n', '<leader>j', ":lua vim.lsp.buf.format({formatting_options = { tabSize = 2, insertSpaces = true }})<CR>", { noremap = true })
-vim.api.nvim_create_autocmd("BufWritePre", {
-	pattern = { "*.php" },
-	callback = function()
-		vim.lsp.buf.format({ formatting_options = { tabSize = 2, insertSpaces = true } })
-	end,
-})
+-- 保存時自動フォーマット
+-- vim.api.nvim_create_autocmd("BufWritePre", {
+-- 	pattern = { "*.php" },
+-- 	callback = function()
+-- 		vim.lsp.buf.format({ formatting_options = { tabSize = 2, insertSpaces = true } })
+-- 	end,
+-- })
+
 -- <Leader>e を押すと別のフローティングウィンドウでdiagnosticが表示される設定
 vim.keymap.set("n", "<Leader>dg", function()
 	local diagnostics = vim.diagnostic.get(0)
@@ -202,3 +232,5 @@ lspconfig.angularls.setup({
     -- カスタマイズ可能
   end
 })
+
+vim.keymap.set({'n', 'x'}, '<leader>y', '<cmd>lua vim.lsp.buf.format({async = true})<cr>', opts)

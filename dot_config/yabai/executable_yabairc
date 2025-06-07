@@ -54,12 +54,22 @@ yabai -m rule --add app="^Finder$" title="^Connect to Server$" manage=off
 yabai -m rule --add app="^Finder$" title="^Connecting to Server$" manage=off
 yabai -m rule --add app="^Finder$" title="^.* Info$" manage=off
 yabai -m rule --add app="^Finder$" title="^Copy$" manage=off
-yabai -m rule --add app="^Docker Desktop$" manage=off
+# yabai -m rule --add app="^Docker Desktop$" manage=off
 yabai -m rule --add app="^Alfred Preferences$" manage=off
 yabai -m rule --add app="^CotEditor$" manage=off
 yabai -m rule --add app="^.*ピクチャー イン ピクチャー.*" manage=off
 yabai -m rule --add app="^LocalStack Desktop$" manage=off
 # yabai -m rule --add app="^Emacs$" sticky=on
+
+# assign app to virtual desktop
+yabai -m rule --add app="Google Chrome" space=2
+yabai -m rule --add app="Slack" space=3
+yabai -m rule --add app="Fork" space=4
+yabai -m rule --add app="TablePlus" space=5
+yabai -m rule --add app="Microsoft Outlook" space=6
+yabai -m rule --add app="Docker Desktop" space=7
+yabai -m rule --add app="Microsoft Execl" space=8
+yabai -m rule --add app="Microsoft Teams" space=9
 
 echo "yabai configuration loaded.."
 

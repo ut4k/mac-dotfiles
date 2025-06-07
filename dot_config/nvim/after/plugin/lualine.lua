@@ -33,7 +33,8 @@ end
 -- 	bg = vim.api.nvim_get_hl_by_name('StatusLine', true).background,
 -- })
 
-local separator = { '"│"', color = 'StatusLineNonText' }
+-- local separator = { '"│"', color = 'StatusLineNonText' }
+local separator = { '"│"' }
 
 local breadcrump_sep = " ⟩ "
 lualine.setup {
@@ -46,18 +47,18 @@ lualine.setup {
 		section_separators = '',
 		always_divide_middle = true,
 		globalstatus = true,
-		theme = {
-			normal = {
-				a = 'StatusLine',
-				b = 'StatusLine',
-				c = 'StatusLine',
-			},
-		},
+    theme = 'auto',  -- ここを 'onedark' にするだけ
+		-- theme = {
+			-- normal = {
+			-- 	a = 'StatusLine',
+			-- 	b = 'StatusLine',
+			-- 	c = 'StatusLine',
+			-- },
+		-- },
 	},
 	sections = {
 		lualine_a = {
 			'mode',
-			separator,
 		},
 		-- lualine_a = {'branch'},
 		lualine_b = {
@@ -68,7 +69,7 @@ lualine.setup {
 			},
 			separator,
 			function ()
-				return '󰅭 ' .. vim.pesc(tostring(#vim.tbl_keys(vim.lsp.buf_get_clients())) or '')
+				return '󰅭 ' .. vim.pesc(tostring(#vim.tbl_keys(vim.lsp.get_clients())) or '')
 			end,
 			{ 'diagnostics', sources = { 'nvim_diagnostic' } },
 			separator,

@@ -2,12 +2,25 @@ export WORKSPACE="$HOME/workspace"
 export PATH=$HOME/.nodebrew/current/bin:$PATH
 export EDITOR=/opt/homebrew/bin/nvim
 
+
+# --- from bash ---
+eval "$(/opt/homebrew/bin/brew shellenv)"
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"
+
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"
+export PATH=$HOME/.composer/vendor/bin:$PATH
+export PATH="$HOME/.cargo/bin:$PATH"
+# --- from bash ---
+PROMPT='%K{0}%F{yellow}%n%f@%F{blue}%m %F{white}%~%f%k '
+
 # -------------------------------------------
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 
 # Path to your Oh My Zsh installation.
-export ZSH="$HOME/.oh-my-zsh"
+# export ZSH="$HOME/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time Oh My Zsh is loaded, in which case,
@@ -78,7 +91,7 @@ ZSH_THEME="rgm"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git)
 
-source $ZSH/oh-my-zsh.sh
+# source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
@@ -104,15 +117,30 @@ source $ZSH/oh-my-zsh.sh
 # - $ZSH_CUSTOM/aliases.zsh
 # - $ZSH_CUSTOM/macos.zsh
 # For a full list of active aliases, run `alias`.
-#
+
+export EDITOR=nvim
+
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+alias ls='eza'
+alias l='eza -lbF --git'
+alias ll='eza -lbGF --git'
+alias llm='eza -lbGd --git --sort=modified'
+alias la='eza -lbhHigUmuSa --time-style=long-iso --git --color-scale'
+alias lx='eza -lbhHigUmuSa@ --time-style=long-iso --git --color-scale'
 
 alias v="nvim"
 alias vi="nvim"
 alias vim="nvim"
 alias wmconf="$HOME/scripts/wmconf.sh"
+alias ac="${EDITOR} .config/alacritty/alacritty.toml"
+
+# プロジェクト用
+alias kb="cd $WORKSPACE/knowbe-api"
+alias kb11="cd $WORKSPACE/knowbe-api-v11"
+alias kin="cd $HOME/Documents/勤怠"
 
 # for rbenv
 # このサイトから https://qiita.com/nishina555/items/63ebd4a508a09c481150

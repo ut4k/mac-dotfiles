@@ -14,7 +14,7 @@ vim.keymap.set("n","<leader><CR>", ":w<CR>")
 
 -- toggle highlight search
 -- vim.keymap.set("n", "<leader> ", ":set hlsearch!<CR>")
-vim.keymap.set("n", "<leader> ", ":noh<CR>")
+vim.keymap.set("n", "<leader>l", ":noh<CR>")
 
 -- selection (indent and move)
 vim.keymap.set("v", "<", "<gv")
@@ -68,6 +68,15 @@ vim.keymap.set('n', ']q', ':cnext<cr>', {remap=false})
 -- vim.keymap.set('n', ']a', ':AerialNext<cr>', {remap=false})
 vim.keymap.set('n', ']q', ':cnext<cr>', {remap=false})
 
+-- レジスタを汚さずブラックホールに送る(連続置換のとき有用）
+vim.keymap.set('n', '<leader>x', '"_dd', {remap = false})
+vim.keymap.set('x', '<leader>x', '"_dd', {remap = false})
+
+-- マクロ実行はQとする（US配列だと@は連続でおしづらいから）
+vim.keymap.set('n', 'Q', '@q', { noremap = true, silent = true })
+
+-- visual selection内だけを検索
+vim.keymap.set('x', '/', '<Esc>/\\%V')
 
 local Hydra = require('hydra')
 local cmd = require('hydra.keymap-util').cmd
@@ -147,3 +156,51 @@ end
 
 -- vim.keymap.set('n', '[[', ':normal! [m<CR>', { remap = false})
 -- vim.keymap.set('n', ']]', ':normal! ]m<CR>', { remap = false})
+
+-- [v]ariable [v]???
+-- 下段にインサート
+vim.keymap.set('n', '<leader>vv', function()
+  local word = vim.fn.expand('<cword>')
+  local escaped = word:gsub("%$", "\\$")
+
+  local lines = {
+    'echo "\\n-----------' .. escaped .. ' >>>-----------\\n";',
+    'echo var_dump(' .. word .. ');',
+    'echo "\\n-----------' .. escaped .. ' <<<-----------\\n";',
+  }
+
+  local result = table.concat(lines, '\n')
+
+  -- クリップボードにコピー
+  vim.fn.setreg('+', result)
+
+  -- 下の行に挿入
+  local row = vim.fn.line('.')
+  vim.fn.append(row, lines)
+
+  print('Inserted and copied debug print for variable: ' .. word)
+end, { noremap = true, silent = true })
+
+-- [v]ariable [d]ump
+-- クリップボードにコピーするだけ
+vim.keymap.set('n', '<leader>vd', function()
+  local word = vim.fn.expand('<cword>')
+  local escaped = word:gsub("%$", "\\$")  -- $ を \$ に変換
+
+  local lines = {
+    'echo "\\n-----------' .. escaped .. ' >>>-----------\\n";',
+    'echo var_dump(' .. word .. ');',
+    'echo "\\n-----------' .. escaped .. ' <<<-----------\\n";',
+  }
+
+  local result = table.concat(lines, '\n')
+  vim.fn.setreg('+', result)
+  print('Copied debug print for variable: ' .. word)
+end, { noremap = true, silent = true })
+
+
+-- surround
+vim.keymap.set('n', '<leader>k', function()
+  vim.cmd("normal ysiw'")
+  print('surrounded a word.')
+end, { remap = false, silent = true })

@@ -106,3 +106,11 @@ augroup BigFileDisable
     autocmd BufReadPre,FileReadPre * if getfsize(expand("%")) > 512 * 1024 | exec DisableSyntaxTreesitter() | endif
 augroup END
 ]]
+
+-- dollar signをwordの判定に含める
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = {"php", "sh"},
+  callback = function()
+    vim.opt_local.iskeyword:append("$")
+  end,
+})

@@ -9,6 +9,7 @@ vim.opt.wildmode = "full"
 vim.opt.wildmenu = true
 vim.opt.scrolloff = 5
 vim.opt.termguicolors = true
+vim.opt.swapfile = false
 vim.wo.wrap = false
 
 vim.opt.ambiwidth="single"
@@ -24,9 +25,11 @@ vim.opt.shiftround = true
 
 -- search related
 vim.opt.hlsearch = true
-vim.opt.incsearch = true
+-- 検索時即時にジャンプさせない
+vim.opt.incsearch = false
 vim.opt.ignorecase = true
-vim.opt.magic = false
+-- vim.opt.magic = false
+vim.opt.magic = true
 -- 周回する
 vim.opt.wrapscan = true
 
